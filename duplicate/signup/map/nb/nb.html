@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <!-- Replace the value of the key parameter with your own API key. -->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbG99_nWRSos08LLLfhknIozmf68tMekA">
+</script>
+    
+    
+    
+    
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+    </script>
+    
+    
+    
+    <!-------------------------------------css-------------------------->
+<style>
+    #map {
+  
+     height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;   
+    
+    }
+    
+</style>
+    <script>
+         
+        function hello(){
+         
+                  alert("hlllo");
+            firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+  
+  
+  alert("user is signed in ");
+  
+  } else {
+    // No user is signed in.
+  }
+});   
+            getLocation()
+            var ref = firebase.database().ref("user details/");
+            ref.on("value", function(snapshot) {
+                //console.log(snapshot.val());
+                var usrs = snapshot.val();
+                var keys = Object.keys(usrs);
+                //console.log(keys);
+                          var map = new google.maps.Map(document.getElementById('map'), {
+                           zoom: 6,
+                          center: new google.maps.LatLng(ll, lllol),//shows a marker
+                          mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+                    var alat = [];
+                var alon = [];
+                for(var i = 0;i<keys.length;i++) {
+                    var k = keys[i];
+                    //console.log(k);
+                    var lati = usrs[k].Latitude;
+                     var longi = usrs[k].Longitude;
+                
+                   storecoords(lati,alat);
+                    storecoords(longi,alon);
+       
+        
+                }
+              //  alert(alat);
+              //  alert(alon);
+   var myLatLng = null;
+        for(var j = 0;j<alat.length;j++) {
+        var clat = alat[j];
+            var clon = alon[j];
+            myLatLng = {lat: clat, lng: clon};
+var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+        }
+               
+
+        }, function (error) {
+   alert("Error: " + error.code);
+});
+        }
+        
+        
+         function storecoords(xVal,array) {
+            //alert(xVal);
+            
+            array.push(xVal);
+            
+
+        }
+        
+        
+        
+        function getLocation() {
+     var x = document.getElementById("hel");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+           var ll;
+        var lllol;
+
+function showPosition(position) {
+
+    ll = position.coords.latitude;
+     lllol = position.coords.longitude;
+   
+
+
+}
+   function bodyOnLoad() {
+       hello();
+   }     
+        
+        
+        
+        
+        
+        
+       
+    </script>
+    <!------------------------reading data ends--------------------->
+    
+    
+<body onload="bodyOnLoad()">
+    
+    <div id="map" style="height: 100%; width: 100%;"></div>
+    
+  
+    
+
+    
+    
+    
+    
+    
+<!-----------Initislizing firebase----->
+
+      
+            
+       
+   
+
+       
+</body>
+</html>
+

@@ -1,0 +1,84 @@
+<html lang="en" >
+
+<head>
+<meta charset="UTF-8">
+<title>SignIn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.38/css/uikit.min.css" />  
+<link rel="stylesheet" href="css/style.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+</head>
+    
+    
+    
+<script>
+//invoke when clicking the signin button    
+function signin() {
+var email = document.getElementById('email').value;
+var pass = document.getElementById('pass').value;
+//alert(email);
+//alert(pass);
+firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
+// Handle Errors here.
+var errorCode = error.code;
+var errorMessage = error.message;
+alert(errorMessage);
+  // ...
+});    
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+// User is signed in.
+//var displayName = user.displayName;
+//var email = user.email;
+//var emailVerified = user.emailVerified;
+//var photoURL = user.photoURL;
+//var isAnonymous = user.isAnonymous;
+var uid = user.uid;
+alert("signed in and user Id is " +uid);
+window.location = "map/map.html";
+//var providerData = user.providerData;
+// ...
+} else {
+// User is signed out.
+// ...
+}
+});
+}
+</script>
+    
+    
+    
+<!---body-->
+<body>
+<h1 class = "head uk-align-center">Sign In</h1>
+<div class="title uk-margin creds">
+<br>
+<p class = "greet">Welcome Back!</p>
+<br>
+<input id = "email" class="uk-input em" type="text" placeholder="E-mail">
+<br>
+<br>
+<input id = "pass" class="uk-input pass" type="text" placeholder="Password">
+<br>
+<br>
+<button class="uk-button uk-button-default sin" onclick = "signin()">Signin</button>
+<br>
+<br>
+</div>
+<p class = "quote">share life by donating blood</p>
+<script  src="js/index.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+<meta charset="UTF-8">
+<title>SignUp</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.38/css/uikit.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyqQ1dgc9IOyHv_UQ-8hxprOKO6AcVsOE"></script>
+<link rel="stylesheet" href="css/style.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+</head>
+    
+    
+<script>
+function signup() {
+getLocation();
+var email = document.getElementById('email').value;
+var pass = document.getElementById('pass').value;
+var repass = document.getElementById('rpass').value;
+var bgroup = document.getElementById('bgroup').value;
+var cno = document.getElementById('cno').value;
+var hab = document.getElementById('hab').value;
+    var messa = "0";
+if(pass != repass) {
+    alert("oops password dont match");
+}
+else {
+firebase.auth().createUserWithEmailAndPassword(email, pass).then(function(user) {
+firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user) {                                                  
+
+
+    if(lat != null){
+        var database = firebase.database();
+var user = firebase.auth().currentUser;
+var uid = user.uid;
+   firebase.database().ref("user details/" + uid).set({
+        bloodGroup:bgroup,
+        ContactNumber:cno,
+        Habits:hab,
+        Latitude:lat,
+        Longitude:lon,
+        email:email,
+        msg: messa
+        
+});     
+alert("Details stored successfully.Please Navigate to the SignIn page"); 
+    }
+    else {
+        var user = firebase.auth().currentUser;
+
+user.delete().then(function() {
+alert("Signup Failed.Try Again");
+}).catch(function(error) {
+  // An error happened.
+});
+    }
+   
+  }).catch(function(error) {
+    console.log(error.code);
+    console.log(error.message);
+    alert(error.message);
+  });
+  
+  
+  
+  
+  
+}).catch(function(error) {
+  // Handle Errors here.
+var errorCode = error.code;
+var errorMessage = error.message;
+console.log('User did not sign up correctly');
+console.log(errorCode);
+console.console.log(errorMessage);
+alert(error.message);
+
+});        
+}
+}
+var lat = null;
+var lon = null;
+function getLocation() {
+if (navigator.geolocation) {
+ navigator.geolocation.getCurrentPosition(showPosition);
+} else { 
+ x.innerHTML = "Geolocation is not supported by this browser.";
+}
+}
+
+function showPosition(position) {
+lat = position.coords.latitude;
+lon = position.coords.longitude;
+console.log(lat,lon);
+}
+
+function notify() {
+    alert("Please Turn On the Location Services");
+} 
+    </script>
+
+
+<body onload = "notify()">
+<h1 class = "head uk-align-center">Sign Up</h1>
+<div class="title uk-margin creds">
+<br>
+<p class = "greet">Welcome Newbie!</p>
+<br>
+<input id = "email" class="uk-input em" type="text" placeholder="E-mail">
+<br>
+<br>
+<input id = "pass" class="uk-input pass" type="text" placeholder="Password">
+<br>
+<br>
+<input id = "rpass" class="uk-input pass" type="text" placeholder="Re-Enter Password">
+<br>
+<br>
+<input id = "bgroup" class="uk-input pass" type="text" placeholder="Blood Group">
+<br>
+<br>
+<input id = "cno" class="uk-input pass" type="text" placeholder="Contact Number">
+<br>
+<br>
+<input id = "hab" class="uk-input pass" type="text" placeholder="smoking or drinking?">
+<br>
+<br>
+<button class="uk-button uk-button-default sin" onclick="signup()">Signup</button>
+<br>
+<br>
+</div>
+<p class = "quote">share life by donating blood</p>
+<script  src="js/index.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+</script>
+</body>
+</html>

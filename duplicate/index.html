@@ -1,0 +1,116 @@
+<html lang="en" >
+
+    
+    
+<head>
+<meta charset="UTF-8">
+<title>Blood Donor</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.38/css/uikit.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+</head>
+    
+    
+
+    
+    
+    
+    
+<script>
+    
+    
+    
+//invokes after clicking a start button
+    
+function change() { 
+$('.title').animate({
+'marginTop' : "-=12%" });//moves up
+$(".signin").css({"visibility": "visible"});    
+$('.signin').addClass('uk-animation-slide-left');
+$(".signup").css({"visibility": "visible"});
+$('.signup').addClass('uk-animation-slide-right');
+$('.btn').addClass('uk-animation-fade uk-animation-reverse');
+$(".btn").css({"visibility": "hidden"});
+$(".footer").css({"visibility": "visible"});
+$('.footer').addClass('uk-animation-fade');
+$('.auth').animate({
+'marginTop' : "+=5%"});
+ }  
+
+//redirection after signin  is clicked    
+function redirsignup() {
+    window.location = "signup/signup.html";
+}
+        
+//redirection after signin  is clicked    
+function redirsignin() {
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+    // User is signed in.
+    alert("automatially signed in");
+     window.location = "login/map/map.html"
+  }
+else {
+    // No user is signed in.
+    alert("no user signed in  already");
+      window.location = "login/login.html";
+      
+  }
+});  
+        }
+function hel() {
+    alert("please turn on Location Services");
+}    
+    
+    function sout() {
+        firebase.auth().signOut().then(function() {
+  console.log('Signed Out');
+}, function(error) {
+  console.error('Sign Out Error', error);
+});
+    }
+</script>
+    
+    
+    
+    
+ <!---body-->   
+<body onload="hel()">
+
+<div class="title">
+<h3 class = "quote">Donate Blood Save Life</h3>
+<h1 class = "head">BLOOD DONOR</h1>
+<br>
+<br>
+<div class = "auth"> <button class="uk-button uk-button-default uk-align-center signin" onclick="redirsignin()">SignIn</button>
+<button class="uk-button uk-button-default uk-align-center signup" onclick="redirsignup()">SignUp</button></div>     
+<br>
+<br>
+<br>
+<button class="uk-button uk-button-secondary btn" onclick="change()">Start</button>
+</div>
+<p class = "footer uk-align-center">We cannot give God in return of this precious life, but we can Thank Him by helping others through blood donation.</p>
+
+</body>
+      
+<!--initiating firebase-->
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+</script>
+    
+    <!--link to external js file--->
+<script  src="js/index.js"></script>
+
+
+</html>

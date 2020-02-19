@@ -1,0 +1,144 @@
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>Blood Donor</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.38/css/uikit.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlu17PuCOggAb8q65PiJ2RhOkIwEzUxto&callback=initMap"></script>
+
+
+</head>
+<style>
+    .quote {
+        position: fixed;
+    }
+    #hel {
+text-align: center;
+position: absolute;
+        
+    }
+    
+    
+    @media screen and (min-width: 800px) {
+
+     #hel {
+        padding-left: 13%;
+        
+    }
+    }
+    .wrapper{
+        position: relative;
+        
+    }
+    
+    
+    </style>
+<script>
+    var shit;
+    var lat;
+    var lon;
+    var hel = null;
+function donate() {
+    alert("wait for the messages to be loaded");
+var ref = firebase.database().ref("user details/");
+ref.on("value", function(snapshot) {
+//console.log(snapshot.val());
+var usrs = snapshot.val();
+var keys = Object.keys(usrs);
+//console.log(keys);
+for(var i = 0;i<keys.length;i++) {
+var k = keys[i];
+//console.log(k);
+var msg = usrs[k].msg;
+    shit = usrs[k].email;
+    lat = usrs[k].Latitude;
+    lon = usrs[k].Longitude;
+    if (msg != "0") {
+        createElement(msg,shit,lat,lon);
+        
+    }
+    
+   }
+//  alert(alat);
+
+}, function (error) {
+   alert("Error: " + error.code);
+});
+
+}
+    var para;
+    var node;
+    var element;
+    function createElement(msg,shit,lati,lon) {
+  
+var geocoder = new google.maps.Geocoder;
+           var lat = lati;
+        var lng = lon;
+        
+        var latlng = new google.maps.LatLng(lat, lng);
+
+       
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if ( google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              
+             hel =  results[1].formatted_address;
+                //alert(hel);
+                var myJSON = JSON.stringify(hel);
+    $("#hel").append("Message:" + msg + "<br><br> E-mail:" + shit + "<br> <br>Address:" + myJSON + "<hr>" );
+
+            
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        });
+
+
+        
+    }
+ 
+    
+        
+        
+
+</script>
+    
+<body onload = "donate()">
+    <div class="title">
+<br>
+<br>
+        
+        <div class = "wrapper">    
+            <h1 class = "quote">People Who need Blood.</h1>
+<hr>
+            <h3 id = "hel" onclick = "shit"></h3> 
+</div>
+
+        
+<br>
+<br>
+<br>
+</div>
+</body>
+    
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+</script>
+<script  src="js/index.js"></script>
+</html>

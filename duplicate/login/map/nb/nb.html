@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbG99_nWRSos08LLLfhknIozmf68tMekA">
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.38/css/uikit.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBI5jgkmSrHow59hOaTaO7kdGHseiKzWCE",
+    authDomain: "a-tvoquy.firebaseapp.com",
+    databaseURL: "https://a-tvoquy.firebaseio.com",
+    projectId: "a-tvoquy",
+    storageBucket: "a-tvoquy.appspot.com",
+    messagingSenderId: "192403781951"
+  };
+  firebase.initializeApp(config);
+</script>
+    
+    
+    
+    <!-------------------------------------css-------------------------->
+<style>
+    #map {
+  
+     height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;   
+    
+    }
+    .hel {
+        position: relative;
+        margin-left: 50%;
+        float: right;
+
+    }
+    
+    .hello {
+        position: relative;
+visibility: hidden;
+        width:50%;
+        text-align: center;
+    }
+    
+   
+</style>
+    
+<script>
+         
+function hello(){
+            //variable declaration
+    alert("this page shows all the user's location on map with marker.We can use geofence here and filter the donors acording to the need")
+var alat = [];
+var alon = [];
+var abg = [];
+var myLatLng = null;
+var clat;
+var clon;
+var contentString;
+var prev_infowindow =false; 
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+  alert("user is signed in ");
+  
+  } else {
+    // No user is signed in.
+  }
+});   
+getLocation();
+var ref = firebase.database().ref("user details/");
+ref.on("value", function(snapshot) {
+//console.log(snapshot.val());
+var usrs = snapshot.val();
+var keys = Object.keys(usrs);
+//console.log(keys);
+for(var i = 0;i<keys.length;i++) {
+var k = keys[i];
+//console.log(k);
+var lati = usrs[k].Latitude;
+var longi = usrs[k].Longitude;
+var Bg = usrs[k].bloodGroup;
+storecoords(lati,alat);
+storecoords(longi,alon);
+storecoords(Bg,abg);
+var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: new google.maps.LatLng(ll, lllol),//shows a marker
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+}
+//  alert(alat);
+var infowindow = new google.maps.InfoWindow();
+for( var j = 0;j<alat.length;j++) {
+clat = alat[j];
+clon = alon[j];
+contentString =   '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+ abg[j] + '</h1>'+
+            '<div id="bodyContent">'+ 
+            '</div>'+
+            '</div>';
+var infowindow = new google.maps.InfoWindow({content: contentString});
+
+myLatLng = {
+        lat: clat, lng: clon
+            };
+var marker = new google.maps.Marker({
+position: myLatLng,
+map: map,
+title: 'Donors Around You'
+  });
+    google.maps.event.addListener(marker, 'click', getInfoCallback(map, contentString));
+
+}
+}, function (error) {
+   alert("Error: " + error.code);
+});
+}
+    
+  
+    
+    function getInfoCallback(map, content) {
+    var infowindow = new google.maps.InfoWindow({content: content});
+        
+    return function() {
+            infowindow.setContent(content); 
+            infowindow.open(map, this);
+        };
+}
+    
+function storecoords(xVal,array) {
+ array.push(xVal);            
+    }
+         
+function getLocation() {
+var x = document.getElementById("hel");
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showPosition);
+} else { 
+x.innerHTML = "Geolocation is not supported by this browser.";
+}
+}
+var ll;
+var lllol;
+
+function showPosition(position) {
+ll = position.coords.latitude;
+lllol = position.coords.longitude;
+//alert(ll);
+//alert(lllol);
+   }
+        
+    
+    
+    
+    
+    function hel() {
+//window.location = "upload/index.html";
+$(".hello").css({"visibility": "visible"});
+        $("#map").css({"filter": "blur(7px) brightness(0.75)"});
+
+
+    
+    }
+    
+    
+      function upload() {
+        
+        var msg = document.getElementById('messageInput').value;
+        var user = firebase.auth().currentUser;
+var uid = user.uid;
+var database = firebase.database();
+        firebase.database().ref("user details/" + uid).update({
+        msg:msg
+        
+});
+        alert("Message Posted Successfully.Donors wiil be in contact with you soon");
+          $(".hello").css({"visibility": "hidden"});
+                  $("#map").css({"filter": "none"});
+
+
+          
+ 
+    }
+</script>
+    <!------------------------reading data ends--------------------->
+    
+    
+<body onload="hello()">
+<div id="map" style="height: 100%; width: 100%;"></div>
+    <button class="uk-button uk-button-secondary hel" onclick="hel()">Not Found?</button>
+    <br>
+    <br>
+    <br>
+    <br><br>
+   
+    <input id = "messageInput" class="uk-input hello uk-align-center" type="text" placeholder="Enter Your Message"> 
+          <button class = "hello uk-align-center uk-button uk-button-secondary" onclick = "upload()">post</button>
+
+
+</body>
+</html>
+

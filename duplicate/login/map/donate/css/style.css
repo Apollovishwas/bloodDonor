@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600");
+
+
+a.white-mode, a.white-mode:link, a.white-mode:visited, a.white-mode:active {
+  font-family: "Montserrat";
+  font-size: 12px;
+  text-decoration: none;
+  background: #212121;
+  padding: 4px 8px;
+  color: #f7f7f7;
+}
+a.white-mode:hover, a.white-mode:link:hover, a.white-mode:visited:hover, a.white-mode:active:hover {
+  background: #edf3f8;
+  color: #212121;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background: #000000;
+}
+
+.title {
+position: relative;
+    left: 50%;
+  top: 13%;
+  transform: translateX(-50%) translateY(-50%);
+  font-family: "Montserrat";
+  text-align: center;
+  width: 100%;
+}
+.title h1 {
+  position: relative;
+  color: #EEEEEE;
+  font-weight: 600;
+  font-size: 60px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.title h1 span {
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  color: #BBB;
+}
+.title h3 {
+  font-weight: 200;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  color: #EEEEEE;
+  letter-spacing: 2px;
+  text-shadow: 0 0 30px #000155;
+}
+
+
+.btn {
+    border: solid white 3px;
+    
+}
+
+.signin {
+  border: solid white 3px;
+    position: relative;
+    color: white;
+}
+
+.signup {
+      border: solid white 3px;
+        color: white;
+    position: relative;
+}
+.footer {
+    color: red;
+      font-family: "Montserrat";
+position:absolute; 
+    visibility: hidden;
+    bottom:0;
+    
+   
+    text-align: center !important;
+}
+
+
+@media (min-width:870px) {
+    
+    
+    .footer {
+        padding-left: 5%;
+        text-align: center;
+    }
+    
+}
+
+
+@media (min-width:900px) {
+    
+    .footer {
+left: 13%;    }
+    
+    
+    }
+
+
+
+@media only screen and (max-width: 500px) {
+    .footer
+    {
+        font-size: 13px;
+    }
+}
+
+
+
+
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+.footer {
+left:7%;    }
+    
+    
+    }
+
+    
+
+}
+
+
